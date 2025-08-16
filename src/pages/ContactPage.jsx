@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function ContactPage() {
-    const [form, setForm] = useState({ name: "", email: "", message: ""});
+    const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: ""});
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -22,16 +22,21 @@ export default function ContactPage() {
           </div>    
           
           <form onSubmit={handleSubmit} aria-label="Contact form">
-            <label className="visually-hidden" htmlFor="name">Name</label>
+            <label className="visually-hidden" htmlFor="name">First Name</label>
             <input
-                id="name"
-                name="name"
-                placeholder="Your Name"
-                value={form.name}
+                name="firstName"
+                placeholder="First Name"
+                value={form.firstName}
                 onChange={handleChange}
-                required
-            />
+                />
 
+                <input
+                name="lastName"
+                placeholder="Last Name"
+                value={form.lastName}
+                onChange={handleChange}
+                />
+                
             <label className="visually-hidden" htmlFor="email">Email</label>
             <input
                 id="email"
