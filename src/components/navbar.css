@@ -4,26 +4,48 @@
     align-items: center;
     background-color: #4caf50;
     padding: 1rem 2rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .navbar-logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: white;
     font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.navbar-logo hover {
+    transform: scale(1.05);
 }
 
 .navbar-links {
     list-style: none;
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .navbar-links li a {
     text-decoration: none;
     color: white;
     font-weight: 500;
-    transition: color 0.3s;
+    position: relative;
+    transition: all 0.2s ease;
 }
+
+.navbar-links li a::after {
+    content: '';
+    position: block;
+    width: 0;
+    height: 2px;
+    background-color: #f1f1f1;
+    transition: width 0.3s;
+}  
+.navbar-links li a:hover::after {
+    width: 100%;
+} 
 
 .navbar-links li a.active {
     font-weight: bold;

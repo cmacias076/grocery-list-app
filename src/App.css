@@ -109,6 +109,9 @@ button {
 button:hover {
   background-color:#43a047;
 }
+button:active {
+  transform: scale(0.98);
+}
 .add-btn {
   background-color: #388e3c;
   padding: 0.8rem 1.6rem;
@@ -141,9 +144,11 @@ button:hover {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;;
 }
 .todo-item:hover {
-  background-color: #e8f5e9;
+  background-color: #dcedc8;
+  transform: translateY(-2px);
 }
 .todo-item.completed .todo-text {
   text-decoration: line-through;
@@ -174,7 +179,10 @@ button:hover {
 /* Panels */
 .form-panel,
 .list-panel {
-  flex: 1;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 1px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.5);
 }
 
 /* Contact info callout */
