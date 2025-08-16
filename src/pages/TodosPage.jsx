@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import TodoItem from "../components/TodoItem";
-
-
 import { useSelector, useDispatch } from "react-redux";
 import {
   addGrocery,
@@ -14,6 +12,8 @@ const TodosPage = () => {
   const todos = useSelector((state) => state.groceries);
 
   const [input, setInput] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [category, setCategory] = useState("");
   const [filter, setFilter] = useState("all");
 
   const handleAdd = (e) => {
@@ -22,11 +22,13 @@ const TodosPage = () => {
       dispatch(
         addGrocery({
           name: input.trim(),
-          quantity: 1,
-          category: "General",
+          quantity: quantity,
+          category: category,
         })
       );
       setInput("");
+      setQuantity(1);
+      setCategory("");
     }
   };
 
@@ -84,10 +86,23 @@ const TodosPage = () => {
             <div className="form-row">
               <input
                 type="text"
-                placeholder="Item name..."
+                placeholder="Item name"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                />
+              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="Produce">Produce</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Meat">Meat</option>
+                <option value="Beverages">Beverages</option>
+                </select>
               <button type="submit" className="add-btn">
                 Add Item
               </button>
