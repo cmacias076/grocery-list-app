@@ -1,91 +1,122 @@
-import { useMemo, useState } from "react";
+import React, { useState } from "react";
 import TodoItem from "../components/TodoItem";
 
-export default function TodosPage() {
-    const [todos, setTodos] = useState([
-        { id: crypto.randomUUID(), text: "Milk", completed: false },
-        { id: crypto.randomUUID(), text: "Bread", completed: true },  
-    ])
 
-    const [newText, setNewText] = useState("");
-    const [filter, setFilter] = useState("all");
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addGrocery,
+  deleteGrocery,
+  toggleBought,
+} from "../features/groceries/groceriesSlice";
 
-    function handleAdd(e) {
-        e.preventDefault();
-        const text = newText.trim();
-        if (!text) return;
-        setTodos([{ id: crypto.randomUUID(), text, completed: false }, ...todos]);
-        setNewText("");
+const TodosPage = () => {
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.groceries);
+
+  const [input, setInput] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      dispatch(
+        addGrocery({
+          name: input.trim(),
+          quantity: 1,
+          category: "General",
+        })
+      );
+      setInput("");
     }
+  };
 
-    function toggleComplete(id) {
-        setTodos(todos.map(t => t.id === id ? { ...t, completed: !t.completed } : t))
-    }
+  const handleToggle = (id) => {
+    dispatch(toggleBought(id));
+  };
 
-    function removeTodo(id) {
-        setTodos(todos.filter(t => t.id !== id));
-    }
+  const handleDelete = (id) => {
+    dispatch(deleteGrocery(id));
+  };
 
-    const filtered = useMemo(() => {
-        if (filter === "completed") return todos.filter(t => t.completed);
-        if (filter === "incomplete") return todos.filter(t => !t.completed);
-        return todos;
-    }, [todos, filter]);
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "completed") return todo.bought;
+    if (filter === "incomplete") return !todo.bought; // ✅ fixed typo
+    return true;
+  });
 
-    return (
-      <>
-        <h2 className="section-title">Your Groceries</h2>
-        
-        {/* Filter Buttons */}
-        <div className="filter-buttons" role="tablist" aria-label="Todo filters">
+  return (
+    <>
+      <h2 className="section-title">Your Groceries</h2>
+
+      <div className="todo-layout">
+        {/* LEFT: Add form + Filters */}
+        <section className="form-panel">
+          <div className="filter-buttons"
+               role="tablist" 
+               aria-label="Todo filters">
+         
             <button
-               className={filter === "all" ? "active" : ""}
-               onClick={() => setFilter("all")}
-             >
-              All 
-            </button>  
+              className={filter === "all" ? "active" : ""}
+              onClick={() => setFilter("all")}
+            >
+              All
+            </button>
             <button
-                className={filter === "completed" ? "active" : ""}
-                onClick={() => setFilter("completed")}
+              className={filter === "completed" ? "active" : ""}
+              onClick={() => setFilter("completed")}
             >
               Completed
             </button>
             <button
-                className={filter === "incomplete" ? "active" : ""}
-                onClick={() => setFilter("incomplete")}
+              className={filter === "incomplete" ? "active" : ""}
+              onClick={() => setFilter("incomplete")}
             >
               Incomplete
             </button>
           </div>
 
-        {/* Add form (controlled) */}
-        <form onSubmit={handleAdd} aria-label="Add grocery item">
-        <label htmlFor="newItem" className="visually-hidden">New item</label>
-        <input
-          id="newItem"
-          type="text"
-          placeholder="Add a grocery item..."
-          value={newText}
-          onChange={(e) => setNewText(e.target.value)}
-        />
-        <button type="submit" className="add-btn">Add Item</button>
-      </form>
+          {/* Add form (controlled) */}
+          <form
+            onSubmit={handleAdd}
+            aria-label="Add grocery item"
+            className="add-form"
+          >
+            <div className="form-row">
+              <input
+                type="text"
+                placeholder="Item name..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <button type="submit" className="add-btn">
+                Add Item
+              </button>
+            </div>
+          </form>
+        </section>
 
-      {/* List */}
-      {filtered.length === 0 ? (
-        <p className="empty-state">No items to show. Try adding one above!</p>
-      ) : (
-        <ul className="todo-list" aria-live="polite">
-          {filtered.map(todo => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={() => toggleComplete(todo.id)}
-              onRemove={() => removeTodo(todo.id)}
-            />
-          ))}
-        </ul>
-      )}
+        {/* RIGHT: Todo List */}
+        <section className="list-panel">
+          {filteredTodos.length === 0 ? (
+            <p className="empty-state">
+              No items to show. Try adding one above!
+            </p>
+          ) : (
+            <ul className="todo-list" aria-live="polite">
+              {filteredTodos.map((todo) => (
+                <TodoItem
+                 key={todo.id} 
+                 todo={{ text: todo.name, completed: todo.bought }}
+                    onToggle={() => handleToggle(todo.id)}
+                    onRemove={() => handleDelete(todo.id)}
+                />
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
     </>
   );
-}
+};
+
+export default TodosPage;

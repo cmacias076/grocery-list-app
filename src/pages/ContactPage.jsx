@@ -26,7 +26,7 @@ export default function ContactPage() {
             <input
                 id="name"
                 name="name"
-                palceholder="Your Name"
+                placeholder="Your Name"
                 value={form.name}
                 onChange={handleChange}
                 required

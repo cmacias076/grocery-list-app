@@ -1,4 +1,4 @@
-export default function TodoITem({ todo, onToggle, onRemove }) {
+export default function TodoItem({ todo, onToggle, onRemove }) {
     return (
         <li className={`todo-item ${todo.completed ? "completed" : ""}`}>
             <div className="todo-main">
