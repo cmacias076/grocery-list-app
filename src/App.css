@@ -17,6 +17,25 @@ header .container {
   align-items: center;
 }
 
+
+/* Section title */
+.section-title {
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #66bb6a;
+  margin-top: 0.3rem;
+  transition: width 0.3s ease;
+}
+.section-title:hover::after {
+  width: 100px;
+}
+
+
 /* Center Content */
 .container {
   max-width: 1100px;
@@ -149,6 +168,10 @@ button:active {
 .todo-item:hover {
   background-color: #dcedc8;
   transform: translateY(-2px);
+}
+.todo-item.completed {
+  background-color: #f1f8e9;
+  color: #777;
 }
 .todo-item.completed .todo-text {
   text-decoration: line-through;
