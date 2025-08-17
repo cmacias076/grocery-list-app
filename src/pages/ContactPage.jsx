@@ -9,7 +9,7 @@ export default function ContactPage() {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        setForm({ name: "", email: "", message: "" });
+        setForm({ firstName: "", lastName: "", email: "", message: "" });
         alert("Message sent! (demo)");
     }
 
@@ -36,7 +36,7 @@ export default function ContactPage() {
                 value={form.lastName}
                 onChange={handleChange}
                 />
-                
+
             <label className="visually-hidden" htmlFor="email">Email</label>
             <input
                 id="email"

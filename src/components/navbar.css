@@ -17,7 +17,7 @@
     transition: transform 0.2s ease;
 }
 
-.navbar-logo hover {
+.navbar-logo:hover {
     transform: scale(1.05);
 }
 
@@ -45,7 +45,7 @@
 }  
 .navbar-links li a:hover::after {
     width: 100%;
-    background-color: #a5d6a7;
+    background-color: #066809;
 } 
 
 .navbar-links li a.active {

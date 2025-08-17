@@ -8,7 +8,9 @@ const Navbar = () => {
             <h2 className="navbar-logo">QuicKart🛒</h2>
             <ul className="navbar-links">
                 <li>
-                  <NavLink to="/" className="nav-link">Home</NavLink>
+                  <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
+                   Home      
+                  </NavLink>
                 </li>
                 <li>
                     <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
