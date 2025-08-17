@@ -40,7 +40,7 @@
     position: block;
     width: 0;
     height: 3px;
-    background-color: #f1f1f1;
+    background-color: #aed581;
     transition: width 0.3s;
 }  
 .navbar-links li a:hover::after {
