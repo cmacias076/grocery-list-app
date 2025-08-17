@@ -11,7 +11,6 @@ export default function App() {
 
          <main className="container">
         <Routes>
-          <Route path="/" element={<Navigate to="/todos" replace />} />
           <Route path="/todos" element={<TodosPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
