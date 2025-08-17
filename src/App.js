@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import TodosPage from './pages/TodosPage';
 import ContactPage from './pages/ContactPage';
 import Navbar from './components/navbar';
@@ -10,7 +10,8 @@ export default function App() {
         <Navbar />
          <main className="container">
         <Routes>
-          <Route path="/" element={<TodosPage />} />
+          <Route path="/" element={<Navigate to="/todos" replace />} />
+          <Route path="/todos" element={<TodosPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </main>
