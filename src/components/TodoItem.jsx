@@ -3,7 +3,7 @@ export default function TodoItem({ todo, onToggle, onRemove }) {
         <li className={`todo-item ${todo.bought ? "completed" : ""}`}>
             <input
                 type="checkbox"
-                aria-label={`Mark ${todo.text} as completed`}
+                aria-label={`Mark ${todo.name} as completed`}
                 checked={todo.bought}
                 onChange={onToggle}
                 className="todo-checkbox"

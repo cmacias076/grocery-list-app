@@ -171,6 +171,7 @@ button:active {
 .todo-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem;
   border-radius: 10px;
   background-color: #fff;
@@ -194,15 +195,14 @@ button:active {
 
 
 .todo-item-name {
-  font-weight: 600;
   flex: 2;
+  font-weight: 600;
 }
 
 .todo-item-quantity,
 .todo-item-category {
   flex: 1;
   color: #2e7d32;
-  font-size: 0.95rem;
 }
 
 .todo-item button.remove-btn {
@@ -219,6 +219,15 @@ button:active {
 
 .todo-item button.remove-btn:hover {
   background-color: #338e3c;
+}
+
+.todo-item-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  flex-wrap: nowrap;
 }
 .todo-item.completed .todo-item-details {
   text-decoration: line-through;
