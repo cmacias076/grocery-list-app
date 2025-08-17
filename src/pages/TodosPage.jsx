@@ -105,6 +105,7 @@ const TodosPage = () => {
                 <option value="Bakery">Bakery</option>
                 <option value="Meat">Meat</option>
                 <option value="Beverages">Beverages</option>
+                <option value="Misc./Other">Misc./Other</option>
                 </select>
               <button type="submit" className="add-btn">
                 Add Item
