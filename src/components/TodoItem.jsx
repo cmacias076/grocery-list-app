@@ -1,20 +1,23 @@
 export default function TodoItem({ todo, onToggle, onRemove }) {
     return (
-        <li className={`todo-item ${todo.completed ? "completed" : ""}`}>
-            <div className="todo-main">
-                <input
-                    type="checkbox"
-                    aria-label={`Mark ${todo.text} as completed`}
-                    checked={todo.completed}
-                    onChange={onToggle}
-                />
-                <span className="todo-text">{todo.text}</span>
+        <li className={`todo-item ${todo.bought ? "completed" : ""}`}>
+            <input
+                type="checkbox"
+                aria-label={`Mark ${todo.text} as completed`}
+                checked={todo.bought}
+                onChange={onToggle}
+                className="todo-checkbox"
+            />
+            
+            <div className="todo-item-details">
+                <span className="todo-item-name">{todo.name}</span>
+                <span className="todo-item-quantity">Qty: {todo.quantity}</span>
+                <span className="todo-item-category">Category: {todo.category}</span>
             </div>
-            <div className="todo-actions">
-                <button onClick={onRemove} aria-label={`Remove ${todo.text}`}>
+
+                <button className="remove-btn" onClick={onRemove}>
                     Remove
                 </button>
-            </div>
         </li>
     );
 }

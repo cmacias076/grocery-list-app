@@ -96,7 +96,10 @@ const TodosPage = () => {
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 />
-              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              <select value={category} onChange={(e) => setCategory(e.target.value)}
+                required
+                >
+                <option value="" disabled>Select Category</option>
                 <option value="Produce">Produce</option>
                 <option value="Dairy">Dairy</option>
                 <option value="Bakery">Bakery</option>
@@ -114,14 +117,14 @@ const TodosPage = () => {
         <section className="list-panel">
           {filteredTodos.length === 0 ? (
             <p className="empty-state">
-              No items to show. Try adding one above!
+              Your grocery cart is empty! Add something to get started.
             </p>
           ) : (
             <ul className="todo-list" aria-live="polite">
               {filteredTodos.map((todo) => (
                 <TodoItem
                  key={todo.id} 
-                 todo={{ text: todo.name, completed: todo.bought }}
+                 todo={todo}
                     onToggle={() => handleToggle(todo.id)}
                     onRemove={() => handleDelete(todo.id)}
                 />
