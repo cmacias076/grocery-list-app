@@ -43,9 +43,6 @@ src/
 ├── index.js
 └── index.css
 
-markdown
-Copy code
-
 ## Planning Artifacts
 Located in the `planning/` folder:
 - `User Stories.txt` (user stories)
