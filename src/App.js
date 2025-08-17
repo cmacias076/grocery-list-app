@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TodosPage from './pages/TodosPage';
 import ContactPage from './pages/ContactPage';
 import Navbar from './components/navbar';
