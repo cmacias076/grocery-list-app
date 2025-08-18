@@ -22,14 +22,14 @@ export default function ContactPage() {
           </div>    
           
           <form onSubmit={handleSubmit} aria-label="Contact form">
-            <label className="visually-hidden" htmlFor="name">First Name</label>
+            <label className="visually-hidden" htmlFor="firstName">First Name</label>
             <input
                 name="firstName"
                 placeholder="First Name"
                 value={form.firstName}
                 onChange={handleChange}
                 />
-
+            <label className="visually-hidden" htmlFor="lastName">Last Name</label>
                 <input
                 name="lastName"
                 placeholder="Last Name"

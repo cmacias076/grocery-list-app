@@ -12,12 +12,13 @@ The app also includes a contact page with a form for user input.
 1. Navigate to the **Todos** page:
    - Add a new grocery item by filling out the form (name, quantity, category).
    - Items will display in a list, where you can mark them as completed or delete them.
-   - Filter buttons allow you to view *all*, *active*, or *completed* items.
+   - Use filter buttons allow you to view *all*, *active*, or *completed* items.
 2. Navigate to the **Contact** page:
    - Fill out the form to simulate sending a message or feedback.
 
 ## Technologies Used
 - React (functional components, hooks, and Redux state management)
+- Redux Toolkit (for state management)
 - CSS (custom styles with media queries for responsiveness)
 - GitHub Pages (for deployment)
 

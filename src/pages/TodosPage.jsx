@@ -1,141 +1,127 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import TodoItem from "../components/TodoItem";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  addGrocery,
-  deleteGrocery,
-  toggleBought,
-} from "../features/groceries/groceriesSlice";
+import PropTypes from "prop-types";
 
-const TodosPage = () => {
-  const dispatch = useDispatch();
-  const todos = useSelector((state) => state.groceries);
 
-  const [input, setInput] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [category, setCategory] = useState("");
+// Reducer to manage todos list actions: add, toggle completion, remove
+function FilterButtons({ currentFilter, onFilterChange }) {
+  return (
+    <div className="filter-buttons" role="tablist" aria-label="Todo filters">
+      {["all", "completed", "incomplete"].map((filterType) => (
+        <button
+          key={filterType}
+          className={currentFilter === filterType ? "active" : ""}
+          onClick={() => onFilterChange(filterType)}
+        >
+          {filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+        </button>
+      ))}
+    </div>
+  );
+}
+FilterButtons.propTypes = {
+  currentFilter: PropTypes.string.isRequired,
+  onFilterChange: PropTypes.func.isRequired,
+};
+export default function TodosPage() {
   const [filter, setFilter] = useState("all");
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    if (input.trim()) {
-      dispatch(
-        addGrocery({
-          name: input.trim(),
-          quantity: quantity,
-          category: category,
-        })
+  // Reducer to handle todo actions
+  function todosReducer(todos, action) {
+  switch (action.type) {
+    case "add":
+      return [...todos, action.todo];
+    case "toggle":
+      return todos.map((todo) =>
+        todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
-      setInput("");
-      setQuantity(1);
-      setCategory("");
-    }
-  };
+    case "remove":
+      return todos.filter((todo) => todo.id !== action.id);
+    default:
+      return todos;
+  }
+}
 
-  const handleToggle = (id) => {
-    dispatch(toggleBought(id));
-  };
+  const [todos, dispatch] = useReducer(todosReducer, []);
 
-  const handleDelete = (id) => {
-    dispatch(deleteGrocery(id));
-  };
-
+  // Filter todos based on the selected filter state
   const filteredTodos = todos.filter((todo) => {
-    if (filter === "completed") return todo.bought;
-    if (filter === "incomplete") return !todo.bought; // ✅ fixed typo
+    if (filter === "completed") return todo.completed;
+    if (filter === "incomplete") return !todo.completed;
     return true;
   });
 
+  // Add new todo item to list from the form input
+  function handleAdd(e) {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.elements.name.value.trim();
+    const quantity = Number(form.elements.quantity.value);
+    const category = form.elements.category.value.trim();
+
+    if (!name) return;
+
+    dispatch({
+      type: "add",
+      todo: {
+        id: crypto.randomUUID(),
+        name,
+        quantity,
+        category,
+        bought: false,
+      },
+    });
+
+    form.reset();
+  }
+
+  // Toggle the completed status of a todo item by id
+  function handleToggle(id) {
+    dispatch({ type: "toggle", id });
+  }
+
+  // Removes a todo item by id
+  function handleDelete(id) {
+    dispatch({ type: "remove", id });
+  }
+
   return (
-    <>
-      <h2 className="section-title">Your Groceries</h2>
+    <div>
+      <h1>Todo List</h1>
 
-      <div className="todo-layout">
-        {/* LEFT: Add form + Filters */}
-        <section className="form-panel">
-          <div className="filter-buttons"
-               role="tablist" 
-               aria-label="Todo filters">
-         
-            <button
-              className={filter === "all" ? "active" : ""}
-              onClick={() => setFilter("all")}
-            >
-              All
-            </button>
-            <button
-              className={filter === "completed" ? "active" : ""}
-              onClick={() => setFilter("completed")}
-            >
-              Completed
-            </button>
-            <button
-              className={filter === "incomplete" ? "active" : ""}
-              onClick={() => setFilter("incomplete")}
-            >
-              Incomplete
-            </button>
-          </div>
 
-          {/* Add form (controlled) */}
-          <form
-            onSubmit={handleAdd}
-            aria-label="Add grocery item"
-            className="add-form"
-          >
-            <div className="form-row">
-              <input
-                type="text"
-                placeholder="Item name"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <input
-                type="number"
-                min="1"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                />
-              <select value={category} onChange={(e) => setCategory(e.target.value)}
-                required
-                >
-                <option value="" disabled>Select Category</option>
-                <option value="Produce">Produce</option>
-                <option value="Dairy">Dairy</option>
-                <option value="Bakery">Bakery</option>
-                <option value="Meat">Meat</option>
-                <option value="Beverages">Beverages</option>
-                <option value="Misc./Other">Misc./Other</option>
-                </select>
-              <button type="submit" className="add-btn">
-                Add Item
-              </button>
-            </div>
-          </form>
-        </section>
+      <FilterButtons currentFilter={filter} onFilterChange={setFilter} />
 
-        {/* RIGHT: Todo List */}
-        <section className="list-panel">
-          {filteredTodos.length === 0 ? (
-            <p className="empty-state">
-              Your grocery cart is empty! Add something to get started.
-            </p>
-          ) : (
-            <ul className="todo-list" aria-live="polite">
-              {filteredTodos.map((todo) => (
-                <TodoItem
-                 key={todo.id} 
-                 todo={todo}
-                    onToggle={() => handleToggle(todo.id)}
-                    onRemove={() => handleDelete(todo.id)}
-                />
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
-    </>
+      <form onSubmit={handleAdd}>
+  <input name="name" placeholder="Todo name" required />
+  <input name="quantity" type="number" min="1" placeholder="Quantity" required />
+
+  <select name="category" required defaultValue="">
+    <option value="" disabled>
+      Select Category
+    </option>
+    <option value="Produce">Produce</option>
+    <option value="Dairy">Dairy</option>
+    <option value="Bakery">Bakery</option>
+    <option value="Meat">Meat</option>
+    <option value="Beverages">Beverages</option>
+    <option value="Misc./Other">Misc./Other</option>
+  </select>
+
+  <button type="submit">Add Todo</button>
+</form>
+
+      <ul>
+        {/* Use 'todo' instead of 'item' for readability */}
+        {filteredTodos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={() => handleToggle(todo.id)}
+            onRemove={() => handleDelete(todo.id)}
+          />
+        ))}
+      </ul>
+    </div>
   );
-};
-
-export default TodosPage;
+}
