@@ -8,6 +8,25 @@ The Grocery List App is a React-Redux project that allows users to manage a groc
 Users can add new items with name, quantity, and category, mark them as completed, filter by status, and remove items.  
 The app also includes a contact page with a form for user input.
 
+## Installation
+
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/cmacias076/grocery-list-app.git
+  
+2. Navigate into the project directory:
+   cd grocery-list-app
+
+3. Install the dependencies:
+   npm install
+
+4. Start the development server:
+   npm start
+
+5. Open your browser and go to http://localhost:3000 to view the app.
+
+
+
 ## How to Use
 1. Navigate to the **Todos** page:
    - Add a new grocery item by filling out the form (name, quantity, category).
